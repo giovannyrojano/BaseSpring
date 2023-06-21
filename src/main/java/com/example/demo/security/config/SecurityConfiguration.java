@@ -32,10 +32,25 @@ public class SecurityConfiguration  {
       http.csrf(csrf -> csrf.disable())
              .authorizeHttpRequests( auth -> auth
 
-             .anyRequest().permitAll()
-// rutas protegidas
+          //   .anyRequest().permitAll()
+// habilitar todas las rutas
                           //    .requestMatchers("/api/auth/**").permitAll()
                           ///   .anyRequest().authenticated()
+
+                .requestMatchers(
+                "/api/auth/authenticate/**",
+                "/swagger-resources",
+                "/swagger-resources/**",
+                "/configuration/ui",
+                "/configuration/security",
+                "/swagger-ui/**",
+                "/webjars/**",
+                "/swagger-ui.html"
+        )
+          .permitAll()
+              .anyRequest()
+          .authenticated()
+
               )
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
               .authenticationProvider(authenticationProvider)

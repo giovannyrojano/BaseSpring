@@ -8,6 +8,7 @@ import javax.security.auth.Subject;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.springframework.security.core.GrantedAuthority;
 
 import com.example.demo.tools.models.BaseModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,7 +26,7 @@ import jakarta.persistence.Table;
 @Table(name = "rol", schema = "dev")
 @SQLDelete(sql = "UPDATE dev.rol SET deleted = true WHERE deleted = false and rol_id = ?")
 @Where(clause = "deleted = false")
-public class Rol extends BaseModel {
+public class Rol extends BaseModel implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rol_id")
@@ -39,6 +40,11 @@ public class Rol extends BaseModel {
     @JsonIgnore
     @ManyToMany(mappedBy = "userRol", fetch = FetchType.LAZY)
     private Set<User> users = new HashSet<>();
+    @JsonIgnore
+     @Override
+    public String getAuthority() {
+        return name;
+    }
 
     public Long getRolId() {
         return rolId;

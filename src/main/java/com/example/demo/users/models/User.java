@@ -101,12 +101,10 @@ public class User extends BaseModel implements UserDetails {
 
 
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-      return ((UserDetails) userRol).getAuthorities();
-    }
-
+@Override
+public Collection<? extends GrantedAuthority> getAuthorities() {
+    return getUserRol();
+}
     @Override
     public String getPassword() {
          return password;
